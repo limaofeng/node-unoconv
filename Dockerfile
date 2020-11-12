@@ -604,8 +604,6 @@ RUN npm set @whir:registry https://artifactory.thuni-h.com/artifactory/api/npm/n
     npm set PYTHON_MIRROR https://npm.taobao.org/mirrors/python && \
     npm config set unsafe-perm true
 
-RUN npm install typescript -g
-
 RUN apt-get update -y && apt-get install openssh-client git -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
@@ -617,6 +615,8 @@ RUN eval $(ssh-agent -s) && \
     chmod 644 ~/.ssh/known_hosts
 
 RUN npm install umi -g 
+
+RUN npm install typescript -g
 
 ENV NODE_OPTIONS="--max-old-space-size=4096"
 ENV LANG="zh_CN.UTF-8"
