@@ -614,8 +614,6 @@ RUN eval $(ssh-agent -s) && \
     ssh-keyscan gitlab.thuni-h.com >> ~/.ssh/known_hosts && \
     chmod 644 ~/.ssh/known_hosts
 
-RUN npm install umi -g --registry=https://registry.npm.taobao.org
-
 RUN npm install typescript -g
 
 ENV NODE_OPTIONS="--max-old-space-size=4096"
