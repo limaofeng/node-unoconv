@@ -10,7 +10,7 @@ RUN add-apt-repository -y ppa:libreoffice/ppa
 ENV FONTCONFIG_PATH=/etc/fonts
 
 # Install Packages
-RUN apt-get update && apt-get install \
+RUN apt-get update && apt-get install -y \
     build-essential \
     python3-pip \
     curl \
@@ -37,7 +37,6 @@ RUN apt-get update && apt-get install \
     fonts-sil-gentium \
     fonts-texgyre \
     fonts-tlwg-purisa \
-    --assume-yes \
     --fix-missing \
     --no-install-recommends \
     && apt-get clean \
