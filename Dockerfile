@@ -143,6 +143,7 @@ RUN buildDeps="autoconf \
     zlib1g-dev" && \
     apt-get -yqq update && \
     apt-get install -yq --no-install-recommends ${buildDeps}
+
 ## opencore-amr https://sourceforge.net/projects/opencore-amr/
 RUN DIR=/tmp/opencore-amr && \
     mkdir -p ${DIR} && \
@@ -153,6 +154,7 @@ RUN DIR=/tmp/opencore-amr && \
     make && \
     make install && \
     rm -rf ${DIR}
+
 ## x264 http://www.videolan.org/developers/x264.html
 RUN DIR=/tmp/x264 && \
     mkdir -p ${DIR} && \
@@ -163,6 +165,7 @@ RUN DIR=/tmp/x264 && \
     make && \
     make install && \
     rm -rf ${DIR}
+
 ### x265 http://x265.org/
 RUN DIR=/tmp/x265 && \
     mkdir -p ${DIR} && \
@@ -175,6 +178,7 @@ RUN DIR=/tmp/x265 && \
     ./multilib.sh && \
     make -C 8bit install && \
     rm -rf ${DIR}
+
 ### libogg https://www.xiph.org/ogg/
 RUN DIR=/tmp/ogg && \
     mkdir -p ${DIR} && \
@@ -186,6 +190,7 @@ RUN DIR=/tmp/ogg && \
     make && \
     make install && \
     rm -rf ${DIR}
+
 ### libopus https://www.opus-codec.org/
 RUN DIR=/tmp/opus && \
     mkdir -p ${DIR} && \
@@ -198,6 +203,7 @@ RUN DIR=/tmp/opus && \
     make && \
     make install && \
     rm -rf ${DIR}
+
 ### libvorbis https://xiph.org/vorbis/
 RUN DIR=/tmp/vorbis && \
     mkdir -p ${DIR} && \
@@ -209,6 +215,7 @@ RUN DIR=/tmp/vorbis && \
     make && \
     make install && \
     rm -rf ${DIR}
+
 ### libtheora http://www.theora.org/
 RUN DIR=/tmp/theora && \
     mkdir -p ${DIR} && \
@@ -220,6 +227,7 @@ RUN DIR=/tmp/theora && \
     make && \
     make install && \
     rm -rf ${DIR}
+
 ### libvpx https://www.webmproject.org/code/
 RUN DIR=/tmp/vpx && \
     mkdir -p ${DIR} && \
@@ -231,6 +239,7 @@ RUN DIR=/tmp/vpx && \
     make && \
     make install && \
     rm -rf ${DIR}
+
 ### libwebp https://developers.google.com/speed/webp/
 RUN DIR=/tmp/vebp && \
     mkdir -p ${DIR} && \
@@ -241,6 +250,7 @@ RUN DIR=/tmp/vebp && \
     make && \
     make install && \
     rm -rf ${DIR}
+
 ### libmp3lame http://lame.sourceforge.net/
 RUN DIR=/tmp/lame && \
     mkdir -p ${DIR} && \
@@ -251,6 +261,7 @@ RUN DIR=/tmp/lame && \
     make && \
     make install && \
     rm -rf ${DIR}
+
 ### xvid https://www.xvid.com/
 RUN DIR=/tmp/xvid && \
     mkdir -p ${DIR} && \
@@ -263,6 +274,7 @@ RUN DIR=/tmp/xvid && \
     make && \
     make install && \
     rm -rf ${DIR}
+
 ### fdk-aac https://github.com/mstorsjo/fdk-aac
 RUN DIR=/tmp/fdk-aac && \
     mkdir -p ${DIR} && \
@@ -274,6 +286,7 @@ RUN DIR=/tmp/fdk-aac && \
     make && \
     make install && \
     rm -rf ${DIR}
+
 ## openjpeg https://github.com/uclouvain/openjpeg
 RUN DIR=/tmp/openjpeg && \
     mkdir -p ${DIR} && \
@@ -284,6 +297,7 @@ RUN DIR=/tmp/openjpeg && \
     make && \
     make install && \
     rm -rf ${DIR}
+
 ## freetype https://www.freetype.org/
 RUN DIR=/tmp/freetype && \
     mkdir -p ${DIR} && \
@@ -295,6 +309,7 @@ RUN DIR=/tmp/freetype && \
     make && \
     make install && \
     rm -rf ${DIR}
+
 ## libvstab https://github.com/georgmartius/vid.stab
 RUN DIR=/tmp/vid.stab && \
     mkdir -p ${DIR} && \
@@ -319,6 +334,7 @@ RUN DIR=/tmp/fribidi && \
     make -j1 && \
     make install && \
     rm -rf ${DIR}
+
 ## fontconfig https://www.freedesktop.org/wiki/Software/fontconfig/
 RUN DIR=/tmp/fontconfig && \
     mkdir -p ${DIR} && \
@@ -329,6 +345,7 @@ RUN DIR=/tmp/fontconfig && \
     make && \
     make install && \
     rm -rf ${DIR}
+
 ## libass https://github.com/libass/libass
 RUN DIR=/tmp/libass && \
     mkdir -p ${DIR} && \
@@ -505,8 +522,6 @@ RUN DIR=/tmp/b24 && \
 RUN DIR=/tmp/ffmpeg && mkdir -p ${DIR} && cd ${DIR} && \
     curl -sLO https://ffmpeg.org/releases/ffmpeg-${FFMPEG_VERSION}.tar.bz2 && \
     tar -jx --strip-components=1 -f ffmpeg-${FFMPEG_VERSION}.tar.bz2
-
-
 
 RUN DIR=/tmp/ffmpeg && mkdir -p ${DIR} && cd ${DIR} && \
     ./configure \
