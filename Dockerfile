@@ -606,7 +606,9 @@ RUN npm set @whir:registry https://artifactory.thuni-h.com/artifactory/api/npm/n
 
 RUN npm install typescript -g
 
-RUN apt-get update -y && apt-get install openssh-client git -y
+RUN apt-get update -y && apt-get install openssh-client git -y \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN eval $(ssh-agent -s) && \
     mkdir -p ~/.ssh && \
