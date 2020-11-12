@@ -1,4 +1,4 @@
-FROM jrottenberg/ffmpeg:4.1-ubuntu
+FROM node:14.5.0
 
 RUN apt-get update && apt-get install -y software-properties-common
 RUN add-apt-repository -y ppa:libreoffice/ppa
@@ -7,8 +7,7 @@ RUN add-apt-repository -y ppa:libreoffice/ppa
 ENV FONTCONFIG_PATH=/etc/fonts
 
 # # Install Packages
-RUN mv /var/lib/dpkg/info /var/lib/dpkg/info.baksudo && mkdir /var/lib/dpkg/info && \
-    apt-get update && apt-get install \
+RUN apt-get update && apt-get install \
     build-essential \
     python3-pip \
     curl \
