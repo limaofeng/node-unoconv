@@ -589,7 +589,7 @@ RUN ldd ${PREFIX}/bin/ffmpeg | grep opt/ffmpeg | cut -d ' ' -f 3 | xargs -i cp {
 ENV LD_LIBRARY_PATH=/usr/local/lib:/usr/local/lib64
 
 RUN npm set @whir:registry https://artifactory.thuni-h.com/artifactory/api/npm/npm/ && \
-    npm set registry https://artifactory.thuni-h.com/artifactory/api/npm/npm/ && \
+    npm set registry https://registry.npm.taobao.org && \
     npm set disturl https://npm.taobao.org/dist && \
     npm set sass_binary_site https://npm.taobao.org/mirrors/node-sass && \
     npm set electron_mirror https://npm.taobao.org/mirrors/electron/ && \
@@ -614,7 +614,7 @@ RUN eval $(ssh-agent -s) && \
     ssh-keyscan gitlab.thuni-h.com >> ~/.ssh/known_hosts && \
     chmod 644 ~/.ssh/known_hosts
 
-RUN npm install umi -g 
+RUN npm install umi -g --registry=https://registry.npm.taobao.org
 
 RUN npm install typescript -g
 
