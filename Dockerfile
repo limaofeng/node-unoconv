@@ -588,6 +588,35 @@ RUN ldd ${PREFIX}/bin/ffmpeg | grep opt/ffmpeg | cut -d ' ' -f 3 | xargs -i cp {
 
 ENV LD_LIBRARY_PATH=/usr/local/lib:/usr/local/lib64
 
+RUN npm set @whir:registry https://artifactory.thuni-h.com/artifactory/api/npm/npm/ && \
+    npm set registry https://artifactory.thuni-h.com/artifactory/api/npm/npm/ && \
+    npm set disturl https://npm.taobao.org/dist && \
+    npm set sass_binary_site https://npm.taobao.org/mirrors/node-sass && \
+    npm set electron_mirror https://npm.taobao.org/mirrors/electron/ && \
+    npm set puppeteer_download_host https://storage.googleapis.com.cnpmjs.org && \
+    npm set chromedriver_cdnurl https://npm.taobao.org/mirrors/chromedriver && \
+    npm set operadriver_cdnurl https://npm.taobao.org/mirrors/operadriver && \
+    npm set phantomjs_cdnurl https://npm.taobao.org/mirrors/phantomjs && \
+    npm set selenium_cdnurl https://npm.taobao.org/mirrors/selenium && \
+    npm set node_inspector_cdnurl https://npm.taobao.org/mirrors/node-inspector && \
+    npm set fse_binary_host_mirror https://npm.taobao.org/mirrors/fsevents && \
+    npm set SQLITE3_BINARY_SITE https://npm.taobao.org/mirrors/sqlite3 && \
+    npm set PYTHON_MIRROR https://npm.taobao.org/mirrors/python && \
+    npm config set unsafe-perm true
+
+RUN npm install typescript -g
+
+RUN apt-get update -y && apt-get install openssh-client git -y
+
+RUN eval $(ssh-agent -s) && \
+    mkdir -p ~/.ssh && \
+    chmod 700 ~/.ssh && \
+    ssh-keyscan gitlab.thuni-h.com >> ~/.ssh/known_hosts && \
+    chmod 644 ~/.ssh/known_hosts
+
+RUN npm install umi -g 
+
+ENV NODE_OPTIONS="--max-old-space-size=4096"
 ENV LANG="zh_CN.UTF-8"
 
 ENTRYPOINT [""]
