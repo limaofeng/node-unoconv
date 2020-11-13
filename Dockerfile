@@ -1,98 +1,56 @@
 FROM ubuntu:16.04
 
-# RUN apt-get update && apt-get install -y software-properties-common \
-#     && apt-get clean \
-#     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN apt-get update && apt-get install -y software-properties-common \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# RUN add-apt-repository -y ppa:libreoffice/ppa
+RUN add-apt-repository -y ppa:libreoffice/ppa
 
-# # Fix issue:  Fontconfig error: Cannot load default config file
-# ENV FONTCONFIG_PATH=/etc/fonts
-
-# RUN apt-get -yqq update && \
-#     apt-get install -yq --no-install-recommends ca-certificates expat libgomp1 && \
-#     apt-get autoremove -y && \
-#     apt-get clean -y
+# Fix issue:  Fontconfig error: Cannot load default config file
+ENV FONTCONFIG_PATH=/etc/fonts
 
 # Install Packages
-RUN buildDeps="autoconf \
-    automake \
-    cmake \
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    python3-pip \
     curl \
-    bzip2 \
-    libexpat1-dev \
-    g++ \
-    gcc \
-    git \
-    gperf \
-    libtool \
-    make \
-    nasm \
-    perl \
-    pkg-config \
-    python \
-    libssl-dev \
-    yasm \
-    zlib1g-dev \
-    git \
     wget \
-    " && \
-    apt-get -yqq update && \
-    apt-get install -yq --no-install-recommends ${buildDeps} \
+    libreoffice \
+    hyphen-fr \
+    hyphen-de \
+    hyphen-en-us \
+    hyphen-it \
+    hyphen-ru \
+    ttf-wqy-zenhei \
+    fonts-arphic-ukai \
+    fonts-arphic-uming \
+    fonts-dejavu \
+    fonts-dejavu-core \
+    fonts-dejavu-extra \
+    fonts-dustin \
+    fonts-f500 \
+    fonts-fanwood \
+    fonts-freefont-ttf \
+    fonts-liberation \
+    fonts-lmodern \
+    fonts-lyx \
+    fonts-sil-gentium \
+    fonts-texgyre \
+    fonts-tlwg-purisa \
+    --fix-missing \
+    --no-install-recommends \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Install Packages
-# RUN apt-get update && apt-get install -y \
-#     # build-essential \
-#     # python3-pip \
-#     git \
-#     curl \
-#     wget \
-#     # libreoffice \
-#     # hyphen-fr \
-#     # hyphen-de \
-#     # hyphen-en-us \
-#     # hyphen-it \
-#     # hyphen-ru \
-#     # ttf-wqy-zenhei \
-#     # fonts-arphic-ukai \
-#     # fonts-arphic-uming \
-#     # fonts-dejavu \
-#     # fonts-dejavu-core \
-#     # fonts-dejavu-extra \
-#     # fonts-dustin \
-#     # fonts-f500 \
-#     # fonts-fanwood \
-#     # fonts-freefont-ttf \
-#     # fonts-liberation \
-#     # fonts-lmodern \
-#     # fonts-lyx \
-#     # fonts-sil-gentium \
-#     # fonts-texgyre \
-#     # fonts-tlwg-purisa \
-#     --fix-missing \
-#     --no-install-recommends \
-#     && apt-get clean \
-#     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-# RUN pip3 install unoconv
-
-# Install Node.js
-RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - \
-    && apt-get update && apt-get install -y nodejs \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN pip3 install unoconv
 
 # Install latest version ImageMagick
-RUN wget --no-check-certificate https://www.imagemagick.org/download/ImageMagick.tar.gz \
-    && tar xf ImageMagick.tar.gz \
-    && cd ImageMagick-7* \
-    && ./configure \
-    && make \
-    make install \
-    && rm ImageMagick.tar.gz \
-    && rm -rf ImageMagick-7* \
+RUN wget https://www.imagemagick.org/download/ImageMagick.tar.gz && \
+    tar xf ImageMagick.tar.gz && \
+    cd ImageMagick-7* && \
+    ./configure && \
+    make && \
+    make install && \
     ldconfig /usr/local/lib
 
 # Install graphicsmagick
@@ -100,11 +58,17 @@ RUN apt-get update && apt-get -y install graphicsmagick \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+# # Install Node.js
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - \
+    && apt-get update && apt-get install -y nodejs \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
 # Install ffmpeg
-# RUN apt-get -yqq update && \
-#     apt-get install -yq --no-install-recommends ca-certificates expat libgomp1 && \
-#     apt-get autoremove -y && \
-#     apt-get clean -y
+RUN apt-get -yqq update && \
+    apt-get install -yq --no-install-recommends ca-certificates expat libgomp1 && \
+    apt-get autoremove -y && \
+    apt-get clean -y
 
 ENV FFMPEG_VERSION=4.1.6 \
     AOM_VERSION=v1.0.0 \
@@ -160,7 +124,29 @@ ARG PKG_CONFIG_PATH="/opt/ffmpeg/share/pkgconfig:/opt/ffmpeg/lib/pkgconfig:/opt/
 ARG PREFIX=/opt/ffmpeg
 ARG LD_LIBRARY_PATH="/opt/ffmpeg/lib:/opt/ffmpeg/lib64"
 
-### opencore-amr https://sourceforge.net/projects/opencore-amr/
+RUN buildDeps="autoconf \
+    automake \
+    cmake \
+    curl \
+    bzip2 \
+    libexpat1-dev \
+    g++ \
+    gcc \
+    git \
+    gperf \
+    libtool \
+    make \
+    nasm \
+    perl \
+    pkg-config \
+    python \
+    libssl-dev \
+    yasm \
+    zlib1g-dev" && \
+    apt-get -yqq update && \
+    apt-get install -yq --no-install-recommends ${buildDeps}
+
+## opencore-amr https://sourceforge.net/projects/opencore-amr/
 RUN DIR=/tmp/opencore-amr && \
     mkdir -p ${DIR} && \
     cd ${DIR} && \
@@ -169,9 +155,10 @@ RUN DIR=/tmp/opencore-amr && \
     ./configure --prefix="${PREFIX}" --enable-shared  && \
     make && \
     make install && \
-    rm -rf ${DIR} && \
-    ### x264 http://www.videolan.org/developers/x264.html
-    DIR=/tmp/x264 && \
+    rm -rf ${DIR}
+
+## x264 http://www.videolan.org/developers/x264.html
+RUN DIR=/tmp/x264 && \
     mkdir -p ${DIR} && \
     cd ${DIR} && \
     curl -sL https://download.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-${X264_VERSION}.tar.bz2 | \
@@ -179,9 +166,10 @@ RUN DIR=/tmp/opencore-amr && \
     ./configure --prefix="${PREFIX}" --enable-shared --enable-pic --disable-cli && \
     make && \
     make install && \
-    rm -rf ${DIR} && \
-    ### x265 http://x265.org/
-    DIR=/tmp/x265 && \
+    rm -rf ${DIR}
+
+### x265 http://x265.org/
+RUN DIR=/tmp/x265 && \
     mkdir -p ${DIR} && \
     cd ${DIR} && \
     curl -sL https://download.videolan.org/pub/videolan/x265/x265_${X265_VERSION}.tar.gz  | \
@@ -191,9 +179,10 @@ RUN DIR=/tmp/opencore-amr && \
     sed -i "/^cmake/ s/$/ -DENABLE_CLI=OFF/" multilib.sh && \
     ./multilib.sh && \
     make -C 8bit install && \
-    rm -rf ${DIR} && \
-    ### libogg https://www.xiph.org/ogg/
-    DIR=/tmp/ogg && \
+    rm -rf ${DIR}
+
+### libogg https://www.xiph.org/ogg/
+RUN DIR=/tmp/ogg && \
     mkdir -p ${DIR} && \
     cd ${DIR} && \
     curl -sLO http://downloads.xiph.org/releases/ogg/libogg-${OGG_VERSION}.tar.gz && \
@@ -202,9 +191,10 @@ RUN DIR=/tmp/opencore-amr && \
     ./configure --prefix="${PREFIX}" --enable-shared  && \
     make && \
     make install && \
-    rm -rf ${DIR} && \
-    ### libopus https://www.opus-codec.org/
-    DIR=/tmp/opus && \
+    rm -rf ${DIR}
+
+### libopus https://www.opus-codec.org/
+RUN DIR=/tmp/opus && \
     mkdir -p ${DIR} && \
     cd ${DIR} && \
     curl -sLO https://archive.mozilla.org/pub/opus/opus-${OPUS_VERSION}.tar.gz && \
@@ -214,9 +204,10 @@ RUN DIR=/tmp/opencore-amr && \
     ./configure --prefix="${PREFIX}" --enable-shared && \
     make && \
     make install && \
-    rm -rf ${DIR} && \
-    ### libvorbis https://xiph.org/vorbis/
-    DIR=/tmp/vorbis && \
+    rm -rf ${DIR}
+
+### libvorbis https://xiph.org/vorbis/
+RUN DIR=/tmp/vorbis && \
     mkdir -p ${DIR} && \
     cd ${DIR} && \
     curl -sLO http://downloads.xiph.org/releases/vorbis/libvorbis-${VORBIS_VERSION}.tar.gz && \
@@ -225,9 +216,10 @@ RUN DIR=/tmp/opencore-amr && \
     ./configure --prefix="${PREFIX}" --with-ogg="${PREFIX}" --enable-shared && \
     make && \
     make install && \
-    rm -rf ${DIR} && \
-    ### libtheora http://www.theora.org/
-    DIR=/tmp/theora && \
+    rm -rf ${DIR}
+
+### libtheora http://www.theora.org/
+RUN DIR=/tmp/theora && \
     mkdir -p ${DIR} && \
     cd ${DIR} && \
     curl -sLO http://downloads.xiph.org/releases/theora/libtheora-${THEORA_VERSION}.tar.gz && \
@@ -236,9 +228,10 @@ RUN DIR=/tmp/opencore-amr && \
     ./configure --prefix="${PREFIX}" --with-ogg="${PREFIX}" --enable-shared && \
     make && \
     make install && \
-    rm -rf ${DIR} && \
-    ### libvpx https://www.webmproject.org/code/
-    DIR=/tmp/vpx && \
+    rm -rf ${DIR}
+
+### libvpx https://www.webmproject.org/code/
+RUN DIR=/tmp/vpx && \
     mkdir -p ${DIR} && \
     cd ${DIR} && \
     curl -sL https://codeload.github.com/webmproject/libvpx/tar.gz/v${VPX_VERSION} | \
@@ -247,9 +240,10 @@ RUN DIR=/tmp/opencore-amr && \
     --disable-debug --disable-examples --disable-docs --disable-install-bins  && \
     make && \
     make install && \
-    rm -rf ${DIR} && \
-    ### libwebp https://developers.google.com/speed/webp/
-    DIR=/tmp/vebp && \
+    rm -rf ${DIR}
+
+### libwebp https://developers.google.com/speed/webp/
+RUN DIR=/tmp/vebp && \
     mkdir -p ${DIR} && \
     cd ${DIR} && \
     curl -sL https://storage.googleapis.com/downloads.webmproject.org/releases/webp/libwebp-${WEBP_VERSION}.tar.gz | \
@@ -257,9 +251,10 @@ RUN DIR=/tmp/opencore-amr && \
     ./configure --prefix="${PREFIX}" --enable-shared  && \
     make && \
     make install && \
-    rm -rf ${DIR} && \
-    ### libmp3lame http://lame.sourceforge.net/
-    DIR=/tmp/lame && \
+    rm -rf ${DIR}
+
+### libmp3lame http://lame.sourceforge.net/
+RUN DIR=/tmp/lame && \
     mkdir -p ${DIR} && \
     cd ${DIR} && \
     curl -sL https://versaweb.dl.sourceforge.net/project/lame/lame/$(echo ${LAME_VERSION} | sed -e 's/[^0-9]*\([0-9]*\)[.]\([0-9]*\)[.]\([0-9]*\)\([0-9A-Za-z-]*\)/\1.\2/')/lame-${LAME_VERSION}.tar.gz | \
@@ -267,9 +262,10 @@ RUN DIR=/tmp/opencore-amr && \
     ./configure --prefix="${PREFIX}" --bindir="${PREFIX}/bin" --enable-shared --enable-nasm --disable-frontend && \
     make && \
     make install && \
-    rm -rf ${DIR} && \
-    ### xvid https://www.xvid.com/
-    DIR=/tmp/xvid && \
+    rm -rf ${DIR}
+
+### xvid https://www.xvid.com/
+RUN DIR=/tmp/xvid && \
     mkdir -p ${DIR} && \
     cd ${DIR} && \
     curl -sLO http://downloads.xvid.org/downloads/xvidcore-${XVID_VERSION}.tar.gz && \
@@ -279,9 +275,10 @@ RUN DIR=/tmp/opencore-amr && \
     ./configure --prefix="${PREFIX}" --bindir="${PREFIX}/bin" && \
     make && \
     make install && \
-    rm -rf ${DIR} && \
-    ### fdk-aac https://github.com/mstorsjo/fdk-aac
-    DIR=/tmp/fdk-aac && \
+    rm -rf ${DIR}
+
+### fdk-aac https://github.com/mstorsjo/fdk-aac
+RUN DIR=/tmp/fdk-aac && \
     mkdir -p ${DIR} && \
     cd ${DIR} && \
     curl -sL https://github.com/mstorsjo/fdk-aac/archive/v${FDKAAC_VERSION}.tar.gz | \
@@ -290,9 +287,10 @@ RUN DIR=/tmp/opencore-amr && \
     ./configure --prefix="${PREFIX}" --enable-shared --datadir="${DIR}" && \
     make && \
     make install && \
-    rm -rf ${DIR} && \
-    ## openjpeg https://github.com/uclouvain/openjpeg
-    DIR=/tmp/openjpeg && \
+    rm -rf ${DIR}
+
+## openjpeg https://github.com/uclouvain/openjpeg
+RUN DIR=/tmp/openjpeg && \
     mkdir -p ${DIR} && \
     cd ${DIR} && \
     curl -sL https://github.com/uclouvain/openjpeg/archive/v${OPENJPEG_VERSION}.tar.gz | \
@@ -300,9 +298,10 @@ RUN DIR=/tmp/opencore-amr && \
     cmake -DBUILD_THIRDPARTY:BOOL=ON -DCMAKE_INSTALL_PREFIX="${PREFIX}" . && \
     make && \
     make install && \
-    rm -rf ${DIR} && \
-    ### freetype https://www.freetype.org/
-    DIR=/tmp/freetype && \
+    rm -rf ${DIR}
+
+## freetype https://www.freetype.org/
+RUN DIR=/tmp/freetype && \
     mkdir -p ${DIR} && \
     cd ${DIR} && \
     curl -sLO https://download.savannah.gnu.org/releases/freetype/freetype-${FREETYPE_VERSION}.tar.gz && \
@@ -311,9 +310,10 @@ RUN DIR=/tmp/opencore-amr && \
     ./configure --prefix="${PREFIX}" --disable-static --enable-shared && \
     make && \
     make install && \
-    rm -rf ${DIR} && \
-    ### libvstab https://github.com/georgmartius/vid.stab
-    DIR=/tmp/vid.stab && \
+    rm -rf ${DIR}
+
+## libvstab https://github.com/georgmartius/vid.stab
+RUN DIR=/tmp/vid.stab && \
     mkdir -p ${DIR} && \
     cd ${DIR} && \
     curl -sLO https://github.com/georgmartius/vid.stab/archive/v${LIBVIDSTAB_VERSION}.tar.gz && \
@@ -322,9 +322,9 @@ RUN DIR=/tmp/opencore-amr && \
     cmake -DCMAKE_INSTALL_PREFIX="${PREFIX}" . && \
     make && \
     make install && \
-    rm -rf ${DIR} && \
-    ### fridibi https://www.fribidi.org/
-    DIR=/tmp/fribidi && \
+    rm -rf ${DIR}
+## fridibi https://www.fribidi.org/
+RUN DIR=/tmp/fribidi && \
     mkdir -p ${DIR} && \
     cd ${DIR} && \
     curl -sLO https://github.com/fribidi/fribidi/archive/${FRIBIDI_VERSION}.tar.gz && \
@@ -335,9 +335,10 @@ RUN DIR=/tmp/opencore-amr && \
     ./configure --prefix="${PREFIX}" --disable-static --enable-shared && \
     make -j1 && \
     make install && \
-    rm -rf ${DIR} && \
-    ### fontconfig https://www.freedesktop.org/wiki/Software/fontconfig/
-    DIR=/tmp/fontconfig && \
+    rm -rf ${DIR}
+
+## fontconfig https://www.freedesktop.org/wiki/Software/fontconfig/
+RUN DIR=/tmp/fontconfig && \
     mkdir -p ${DIR} && \
     cd ${DIR} && \
     curl -sLO https://www.freedesktop.org/software/fontconfig/release/fontconfig-${FONTCONFIG_VERSION}.tar.bz2 && \
@@ -345,9 +346,10 @@ RUN DIR=/tmp/opencore-amr && \
     ./configure --prefix="${PREFIX}" --disable-static --enable-shared && \
     make && \
     make install && \
-    rm -rf ${DIR} && \
-    ### libass https://github.com/libass/libass
-    DIR=/tmp/libass && \
+    rm -rf ${DIR}
+
+## libass https://github.com/libass/libass
+RUN DIR=/tmp/libass && \
     mkdir -p ${DIR} && \
     cd ${DIR} && \
     curl -sLO https://github.com/libass/libass/archive/${LIBASS_VERSION}.tar.gz && \
@@ -357,9 +359,10 @@ RUN DIR=/tmp/opencore-amr && \
     ./configure --prefix="${PREFIX}" --disable-static --enable-shared && \
     make && \
     make install && \
-    rm -rf ${DIR} && \
-    ### kvazaar https://github.com/ultravideo/kvazaar
-    DIR=/tmp/kvazaar && \
+    rm -rf ${DIR}
+
+## kvazaar https://github.com/ultravideo/kvazaar
+RUN DIR=/tmp/kvazaar && \
     mkdir -p ${DIR} && \
     cd ${DIR} && \
     curl -sLO https://github.com/ultravideo/kvazaar/archive/v${KVAZAAR_VERSION}.tar.gz && \
@@ -368,8 +371,9 @@ RUN DIR=/tmp/opencore-amr && \
     ./configure --prefix="${PREFIX}" --disable-static --enable-shared && \
     make && \
     make install && \
-    rm -rf ${DIR} && \
-    DIR=/tmp/aom && \
+    rm -rf ${DIR}
+
+RUN DIR=/tmp/aom && \
     git clone --branch ${AOM_VERSION} --depth 1 https://aomedia.googlesource.com/aom ${DIR} ; \
     cd ${DIR} ; \
     rm -rf CMakeCache.txt CMakeFiles ; \
@@ -378,9 +382,10 @@ RUN DIR=/tmp/opencore-amr && \
     cmake -DCMAKE_INSTALL_PREFIX="${PREFIX}" -DBUILD_SHARED_LIBS=1 ..; \
     make ; \
     make install ; \
-    rm -rf ${DIR} && \
-    ### libxcb (and supporting libraries) for screen capture https://xcb.freedesktop.org/
-    DIR=/tmp/xorg-macros && \
+    rm -rf ${DIR}
+
+## libxcb (and supporting libraries) for screen capture https://xcb.freedesktop.org/
+RUN DIR=/tmp/xorg-macros && \
     mkdir -p ${DIR} && \
     cd ${DIR} && \
     curl -sLO https://www.x.org/archive//individual/util/util-macros-${XORG_MACROS_VERSION}.tar.gz && \
@@ -388,8 +393,9 @@ RUN DIR=/tmp/opencore-amr && \
     ./configure --srcdir=${DIR} --prefix="${PREFIX}" && \
     make && \
     make install && \
-    rm -rf ${DIR} && \
-    DIR=/tmp/xproto && \
+    rm -rf ${DIR}
+
+RUN DIR=/tmp/xproto && \
     mkdir -p ${DIR} && \
     cd ${DIR} && \
     curl -sLO https://www.x.org/archive/individual/proto/xproto-${XPROTO_VERSION}.tar.gz && \
@@ -397,8 +403,9 @@ RUN DIR=/tmp/opencore-amr && \
     ./configure --srcdir=${DIR} --prefix="${PREFIX}" && \
     make && \
     make install && \
-    rm -rf ${DIR} && \
-    DIR=/tmp/libXau && \
+    rm -rf ${DIR}
+
+RUN DIR=/tmp/libXau && \
     mkdir -p ${DIR} && \
     cd ${DIR} && \
     curl -sLO https://www.x.org/archive/individual/lib/libXau-${XAU_VERSION}.tar.gz && \
@@ -406,8 +413,9 @@ RUN DIR=/tmp/opencore-amr && \
     ./configure --srcdir=${DIR} --prefix="${PREFIX}" && \
     make && \
     make install && \
-    rm -rf ${DIR} && \
-    DIR=/tmp/libpthread-stubs && \
+    rm -rf ${DIR}
+
+RUN DIR=/tmp/libpthread-stubs && \
     mkdir -p ${DIR} && \
     cd ${DIR} && \
     curl -sLO https://xcb.freedesktop.org/dist/libpthread-stubs-${LIBPTHREAD_STUBS_VERSION}.tar.gz && \
@@ -415,8 +423,9 @@ RUN DIR=/tmp/opencore-amr && \
     ./configure --prefix="${PREFIX}" && \
     make && \
     make install && \
-    rm -rf ${DIR} && \
-    DIR=/tmp/libxcb-proto && \
+    rm -rf ${DIR}
+
+RUN DIR=/tmp/libxcb-proto && \
     mkdir -p ${DIR} && \
     cd ${DIR} && \
     curl -sLO https://xcb.freedesktop.org/dist/xcb-proto-${XCBPROTO_VERSION}.tar.gz && \
@@ -425,8 +434,9 @@ RUN DIR=/tmp/opencore-amr && \
     ./configure --prefix="${PREFIX}" && \
     make && \
     make install && \
-    rm -rf ${DIR} && \
-    DIR=/tmp/libxcb && \
+    rm -rf ${DIR}
+
+RUN DIR=/tmp/libxcb && \
     mkdir -p ${DIR} && \
     cd ${DIR} && \
     curl -sLO https://xcb.freedesktop.org/dist/libxcb-${LIBXCB_VERSION}.tar.gz && \
@@ -435,9 +445,10 @@ RUN DIR=/tmp/opencore-amr && \
     ./configure --prefix="${PREFIX}" --disable-static --enable-shared && \
     make && \
     make install && \
-    rm -rf ${DIR} && \
-    ### libxml2 - for libbluray
-    DIR=/tmp/libxml2 && \
+    rm -rf ${DIR}
+
+## libxml2 - for libbluray
+RUN DIR=/tmp/libxml2 && \
     mkdir -p ${DIR} && \
     cd ${DIR} && \
     curl -sLO https://gitlab.gnome.org/GNOME/libxml2/-/archive/v${LIBXML2_VERSION}/libxml2-v${LIBXML2_VERSION}.tar.gz && \
@@ -446,9 +457,10 @@ RUN DIR=/tmp/opencore-amr && \
     ./autogen.sh --prefix="${PREFIX}" --with-ftp=no --with-http=no --with-python=no && \
     make && \
     make install && \
-    rm -rf ${DIR} && \
-    ### libbluray - Requires libxml, freetype, and fontconfig
-    DIR=/tmp/libbluray && \
+    rm -rf ${DIR}
+
+## libbluray - Requires libxml, freetype, and fontconfig
+RUN DIR=/tmp/libbluray && \
     mkdir -p ${DIR} && \
     cd ${DIR} && \
     curl -sLO https://download.videolan.org/pub/videolan/libbluray/${LIBBLURAY_VERSION}/libbluray-${LIBBLURAY_VERSION}.tar.bz2 && \
@@ -457,9 +469,10 @@ RUN DIR=/tmp/opencore-amr && \
     ./configure --prefix="${PREFIX}" --disable-examples --disable-bdjava-jar --disable-static --enable-shared && \
     make && \
     make install && \
-    rm -rf ${DIR} && \
-    ### libzmq https://github.com/zeromq/libzmq/
-    DIR=/tmp/libzmq && \
+    rm -rf ${DIR}
+
+## libzmq https://github.com/zeromq/libzmq/
+RUN DIR=/tmp/libzmq && \
     mkdir -p ${DIR} && \
     cd ${DIR} && \
     curl -sLO https://github.com/zeromq/libzmq/archive/v${LIBZMQ_VERSION}.tar.gz && \
@@ -470,9 +483,10 @@ RUN DIR=/tmp/opencore-amr && \
     make && \
     make check && \
     make install && \
-    rm -rf ${DIR} && \
-    ### libsrt https://github.com/Haivision/srt
-    DIR=/tmp/srt && \
+    rm -rf ${DIR}
+
+## libsrt https://github.com/Haivision/srt
+RUN DIR=/tmp/srt && \
     mkdir -p ${DIR} && \
     cd ${DIR} && \
     curl -sLO https://github.com/Haivision/srt/archive/v${LIBSRT_VERSION}.tar.gz && \
@@ -480,9 +494,10 @@ RUN DIR=/tmp/opencore-amr && \
     cmake -DCMAKE_INSTALL_PREFIX="${PREFIX}" . && \
     make && \
     make install && \
-    rm -rf ${DIR} && \
-    ### libpng
-    DIR=/tmp/png && \
+    rm -rf ${DIR}
+
+## libpng
+RUN DIR=/tmp/png && \
     mkdir -p ${DIR} && \
     cd ${DIR} && \
     git clone https://git.code.sf.net/p/libpng/code ${DIR} -b v${LIBPNG_VERSION} --depth 1 && \
@@ -490,9 +505,10 @@ RUN DIR=/tmp/opencore-amr && \
     ./configure --prefix="${PREFIX}" && \
     make check && \
     make install && \
-    rm -rf ${DIR} && \
-    ### libaribb24
-    DIR=/tmp/b24 && \
+    rm -rf ${DIR}
+
+## libaribb24
+RUN DIR=/tmp/b24 && \
     mkdir -p ${DIR} && \
     cd ${DIR} && \
     curl -sLO https://github.com/nkoriyama/aribb24/archive/v${LIBARIBB24_VERSION}.tar.gz && \
@@ -502,12 +518,14 @@ RUN DIR=/tmp/opencore-amr && \
     ./configure CFLAGS="-I${PREFIX}/include -fPIC" --prefix="${PREFIX}" && \
     make && \
     make install && \
-    rm -rf ${DIR} && \
-    ### ffmpeg https://ffmpeg.org/
-    DIR=/tmp/ffmpeg && mkdir -p ${DIR} && cd ${DIR} && \
+    rm -rf ${DIR}
+
+## ffmpeg https://ffmpeg.org/
+RUN DIR=/tmp/ffmpeg && mkdir -p ${DIR} && cd ${DIR} && \
     curl -sLO https://ffmpeg.org/releases/ffmpeg-${FFMPEG_VERSION}.tar.bz2 && \
-    tar -jx --strip-components=1 -f ffmpeg-${FFMPEG_VERSION}.tar.bz2 && \
-    mkdir -p ${DIR} && cd ${DIR} && \
+    tar -jx --strip-components=1 -f ffmpeg-${FFMPEG_VERSION}.tar.bz2
+
+RUN DIR=/tmp/ffmpeg && mkdir -p ${DIR} && cd ${DIR} && \
     ./configure \
     --disable-debug \
     --disable-doc \
@@ -554,9 +572,10 @@ RUN DIR=/tmp/opencore-amr && \
     make distclean && \
     hash -r && \
     cd tools && \
-    make qt-faststart && cp qt-faststart ${PREFIX}/bin/ && \
-    ### cleanup
-    ldd ${PREFIX}/bin/ffmpeg | grep opt/ffmpeg | cut -d ' ' -f 3 | xargs -i cp {} /usr/local/lib/ && \
+    make qt-faststart && cp qt-faststart ${PREFIX}/bin/
+
+## cleanup
+RUN ldd ${PREFIX}/bin/ffmpeg | grep opt/ffmpeg | cut -d ' ' -f 3 | xargs -i cp {} /usr/local/lib/ && \
     for lib in /usr/local/lib/*.so.*; do ln -s "${lib##*/}" "${lib%%.so.*}".so; done && \
     cp ${PREFIX}/bin/* /usr/local/bin/ && \
     cp -r ${PREFIX}/share/ffmpeg /usr/local/share/ && \
