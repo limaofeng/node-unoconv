@@ -9,10 +9,16 @@ FROM ubuntu:16.04
 # # Fix issue:  Fontconfig error: Cannot load default config file
 # ENV FONTCONFIG_PATH=/etc/fonts
 
+RUN apt-get -yqq update && \
+    apt-get install -yq --no-install-recommends ca-certificates expat libgomp1 && \
+    apt-get autoremove -y && \
+    apt-get clean -y
+
 # Install Packages
 RUN apt-get update && apt-get install -y \
     # build-essential \
     # python3-pip \
+    git \
     curl \
     wget \
     # libreoffice \
