@@ -346,7 +346,6 @@ RUN DIR=/tmp/opencore-amr && \
     make && \
     make install && \
     rm -rf ${DIR} && \
-
     ### libass https://github.com/libass/libass
     DIR=/tmp/libass && \
     mkdir -p ${DIR} && \
@@ -359,7 +358,6 @@ RUN DIR=/tmp/opencore-amr && \
     make && \
     make install && \
     rm -rf ${DIR} && \
-
     ### kvazaar https://github.com/ultravideo/kvazaar
     DIR=/tmp/kvazaar && \
     mkdir -p ${DIR} && \
@@ -449,7 +447,6 @@ RUN DIR=/tmp/opencore-amr && \
     make && \
     make install && \
     rm -rf ${DIR} && \
-
     ### libbluray - Requires libxml, freetype, and fontconfig
     DIR=/tmp/libbluray && \
     mkdir -p ${DIR} && \
@@ -461,7 +458,6 @@ RUN DIR=/tmp/opencore-amr && \
     make && \
     make install && \
     rm -rf ${DIR} && \
-
     ### libzmq https://github.com/zeromq/libzmq/
     DIR=/tmp/libzmq && \
     mkdir -p ${DIR} && \
@@ -506,10 +502,9 @@ RUN DIR=/tmp/opencore-amr && \
     ./configure CFLAGS="-I${PREFIX}/include -fPIC" --prefix="${PREFIX}" && \
     make && \
     make install && \
-    rm -rf ${DIR}
-
-### ffmpeg https://ffmpeg.org/
-RUN DIR=/tmp/ffmpeg && mkdir -p ${DIR} && cd ${DIR} && \
+    rm -rf ${DIR} && \
+    ### ffmpeg https://ffmpeg.org/
+    DIR=/tmp/ffmpeg && mkdir -p ${DIR} && cd ${DIR} && \
     curl -sLO https://ffmpeg.org/releases/ffmpeg-${FFMPEG_VERSION}.tar.bz2 && \
     tar -jx --strip-components=1 -f ffmpeg-${FFMPEG_VERSION}.tar.bz2 && \
     mkdir -p ${DIR} && cd ${DIR} && \
