@@ -35,7 +35,6 @@ RUN buildDeps="autoconf \
     yasm \
     zlib1g-dev \
     git \
-    curl \
     wget \
     " && \
     apt-get -yqq update && \
@@ -87,11 +86,13 @@ RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - \
 
 # Install latest version ImageMagick
 RUN wget --no-check-certificate https://www.imagemagick.org/download/ImageMagick.tar.gz && \
-    tar xf ImageMagick.tar.gz && \
-    cd ImageMagick-7* && \
-    ./configure && \
-    make && \
-    make install && \
+    && tar xf ImageMagick.tar.gz \
+    && cd ImageMagick-7* \
+    && ./configure \
+    && make \
+    make install \
+    && rm ImageMagick.tar.gz \
+    && rm -rf ImageMagick-7* \
     ldconfig /usr/local/lib
 
 # Install graphicsmagick
