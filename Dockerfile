@@ -9,44 +9,73 @@ FROM ubuntu:16.04
 # # Fix issue:  Fontconfig error: Cannot load default config file
 # ENV FONTCONFIG_PATH=/etc/fonts
 
-RUN apt-get -yqq update && \
-    apt-get install -yq --no-install-recommends ca-certificates expat libgomp1 && \
-    apt-get autoremove -y && \
-    apt-get clean -y
+# RUN apt-get -yqq update && \
+#     apt-get install -yq --no-install-recommends ca-certificates expat libgomp1 && \
+#     apt-get autoremove -y && \
+#     apt-get clean -y
 
 # Install Packages
-RUN apt-get update && apt-get install -y \
-    # build-essential \
-    # python3-pip \
+RUN buildDeps="autoconf \
+    automake \
+    cmake \
+    curl \
+    bzip2 \
+    libexpat1-dev \
+    g++ \
+    gcc \
+    git \
+    gperf \
+    libtool \
+    make \
+    nasm \
+    perl \
+    pkg-config \
+    python \
+    libssl-dev \
+    yasm \
+    zlib1g-dev \
     git \
     curl \
     wget \
-    # libreoffice \
-    # hyphen-fr \
-    # hyphen-de \
-    # hyphen-en-us \
-    # hyphen-it \
-    # hyphen-ru \
-    # ttf-wqy-zenhei \
-    # fonts-arphic-ukai \
-    # fonts-arphic-uming \
-    # fonts-dejavu \
-    # fonts-dejavu-core \
-    # fonts-dejavu-extra \
-    # fonts-dustin \
-    # fonts-f500 \
-    # fonts-fanwood \
-    # fonts-freefont-ttf \
-    # fonts-liberation \
-    # fonts-lmodern \
-    # fonts-lyx \
-    # fonts-sil-gentium \
-    # fonts-texgyre \
-    # fonts-tlwg-purisa \
-    --fix-missing \
-    --no-install-recommends \
+    " && \
+    apt-get -yqq update && \
+    apt-get install -yq --no-install-recommends ${buildDeps} \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Install Packages
+# RUN apt-get update && apt-get install -y \
+#     # build-essential \
+#     # python3-pip \
+#     git \
+#     curl \
+#     wget \
+#     # libreoffice \
+#     # hyphen-fr \
+#     # hyphen-de \
+#     # hyphen-en-us \
+#     # hyphen-it \
+#     # hyphen-ru \
+#     # ttf-wqy-zenhei \
+#     # fonts-arphic-ukai \
+#     # fonts-arphic-uming \
+#     # fonts-dejavu \
+#     # fonts-dejavu-core \
+#     # fonts-dejavu-extra \
+#     # fonts-dustin \
+#     # fonts-f500 \
+#     # fonts-fanwood \
+#     # fonts-freefont-ttf \
+#     # fonts-liberation \
+#     # fonts-lmodern \
+#     # fonts-lyx \
+#     # fonts-sil-gentium \
+#     # fonts-texgyre \
+#     # fonts-tlwg-purisa \
+#     --fix-missing \
+#     --no-install-recommends \
+#     && apt-get clean \
+#     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # RUN pip3 install unoconv
 
@@ -129,28 +158,6 @@ RUN apt-get update && apt-get -y install graphicsmagick \
 # ARG PKG_CONFIG_PATH="/opt/ffmpeg/share/pkgconfig:/opt/ffmpeg/lib/pkgconfig:/opt/ffmpeg/lib64/pkgconfig"
 # ARG PREFIX=/opt/ffmpeg
 # ARG LD_LIBRARY_PATH="/opt/ffmpeg/lib:/opt/ffmpeg/lib64"
-
-# RUN buildDeps="autoconf \
-#     automake \
-#     cmake \
-#     curl \
-#     bzip2 \
-#     libexpat1-dev \
-#     g++ \
-#     gcc \
-#     git \
-#     gperf \
-#     libtool \
-#     make \
-#     nasm \
-#     perl \
-#     pkg-config \
-#     python \
-#     libssl-dev \
-#     yasm \
-#     zlib1g-dev" && \
-#     apt-get -yqq update && \
-#     apt-get install -yq --no-install-recommends ${buildDeps}
 
 # ## opencore-amr https://sourceforge.net/projects/opencore-amr/
 # RUN DIR=/tmp/opencore-amr && \
