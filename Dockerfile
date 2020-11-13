@@ -11,7 +11,7 @@ FROM ubuntu:16.04
 
 # Install Packages
 RUN apt-get update && apt-get install -y \
-    build-essential \
+    # build-essential \
     # python3-pip \
     curl \
     wget \
@@ -51,7 +51,7 @@ RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Install latest version ImageMagick
-RUN wget https://www.imagemagick.org/download/ImageMagick.tar.gz && \
+RUN wget --no-check-certificate https://www.imagemagick.org/download/ImageMagick.tar.gz && \
     tar xf ImageMagick.tar.gz && \
     cd ImageMagick-7* && \
     ./configure && \
