@@ -85,20 +85,20 @@ RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Install latest version ImageMagick
-RUN wget --no-check-certificate https://www.imagemagick.org/download/ImageMagick.tar.gz && \
-    && tar xf ImageMagick.tar.gz \
-    && cd ImageMagick-7* \
-    && ./configure \
-    && make \
-    make install \
-    && rm ImageMagick.tar.gz \
-    && rm -rf ImageMagick-7* \
-    ldconfig /usr/local/lib
+# RUN wget --no-check-certificate https://www.imagemagick.org/download/ImageMagick.tar.gz && \
+#     && tar xf ImageMagick.tar.gz \
+#     && cd ImageMagick-7* \
+#     && ./configure \
+#     && make \
+#     make install \
+#     && rm ImageMagick.tar.gz \
+#     && rm -rf ImageMagick-7* \
+#     ldconfig /usr/local/lib
 
 # Install graphicsmagick
-RUN apt-get update && apt-get -y install graphicsmagick \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+# RUN apt-get update && apt-get -y install graphicsmagick \
+#     && apt-get clean \
+#     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # # Install ffmpeg
 # RUN apt-get -yqq update && \
